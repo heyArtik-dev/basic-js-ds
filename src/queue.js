@@ -1,6 +1,6 @@
 const { NotImplementedError } = require('../extensions/index.js');
 
-// const { ListNode } = require('../extensions/list-node.js');
+const { ListNode } = require('../extensions/list-node.js');
 
 /**
  * Implement the Queue with a given interface via linked list (use ListNode extension above).
@@ -14,20 +14,46 @@ const { NotImplementedError } = require('../extensions/index.js');
  * queue.getUnderlyingList() // returns { value: 3, next: null }
  */
 class Queue {
-
-  getUnderlyingList() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  constructor() {
+    this.head = null; // The front of the queue
+    this.tail = null; // The end of the queue
   }
 
-  enqueue(/* value */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  // Adds an element to the end of the queue
+  enqueue(value) {
+    const newNode = new ListNode(value); // Create a new node with the given value
+
+    if (!this.head) {
+      // If the queue is empty, set both head and tail to the new node
+      this.head = newNode;
+      this.tail = newNode;
+    } else {
+      // If the queue is not empty, append the new node to the end and update the tail
+      this.tail.next = newNode;
+      this.tail = newNode;
+    }
   }
 
+  // Removes and returns the front element of the queue
   dequeue() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    if (!this.head) {
+      return undefined; // If the queue is empty, return undefined
+    }
+
+    const dequeuedValue = this.head.value; // Get the value of the front node
+    this.head = this.head.next; // Move the head pointer to the next node
+
+    if (!this.head) {
+      // If the queue is now empty, set tail to null
+      this.tail = null;
+    }
+
+    return dequeuedValue; // Return the value of the dequeued node
+  }
+
+  // Returns the underlying linked list representation of the queue
+  getUnderlyingList() {
+    return this.head; // Return the head of the linked list
   }
 }
 
